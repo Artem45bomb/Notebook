@@ -29,6 +29,7 @@ import LogOutSvg from  "./LogOut.svg"
 import MessageSvg from  "./Message.svg"
 import HeartSvg from  "./Heart.svg"
 import LogInSvg from  "./LogIn.svg"
+import DragMenuSvg from  "./DragMenu.svg"
 
 type Icon = React.FC<SvgProps>
 
@@ -65,3 +66,4 @@ export const LogOut = icon(LogOutSvg)
 export const Message = icon(MessageSvg)
 export const Heart = icon(HeartSvg)
 export const LogIn = icon(LogInSvg)
+export const DragMenu = icon(DragMenuSvg)

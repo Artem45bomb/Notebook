@@ -1,8 +1,7 @@
-import React, {useEffect} from "react";
-import {StyleSheet, TextInput, View} from "react-native";
+import React, {useEffect, useRef, useState} from "react";
+import {ScrollView, StyleSheet, TextInput, View} from "react-native";
 import {useAppDispatch, useAppSelector} from "@/hooks/redux";
 import {selectorRecord} from "@/store/slice/record/selector";
-import type {Note} from "@/api/Model/Note";
 import {init, update} from "@/store/slice/record/record";
 
 
@@ -14,12 +13,13 @@ interface Props {
 export const TextNotes:React.FC<Props> = ({textRef,isActive}) => {
     const dispatch = useAppDispatch();
     const record = useAppSelector(selectorRecord);
+    const [article,setArticle] = useState(record?.entity.text ?? "")
 
     const handlerChange =(text:string) => {
         dispatch(update({entity:{...(record!.entity),text}}))
     }
 
-    return <View style={styles.container}>
+    return <ScrollView style={styles.container}>
         <TextInput
             onChangeText={handlerChange}
             multiline={true}
@@ -30,7 +30,7 @@ export const TextNotes:React.FC<Props> = ({textRef,isActive}) => {
                 ...styles.textarea
                 }}
         />
-    </View>
+    </ScrollView>
 }
 
 
@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
         width:"100%",
         maxHeight:"100%",
         backgroundColor:"black",
+        flex:1
     },
     textarea:{
         backgroundColor:"#161615",

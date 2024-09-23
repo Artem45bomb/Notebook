@@ -29,6 +29,12 @@ const styles = StyleSheet.create({
         width:"100%",
         paddingHorizontal:20
     },
+    view:{
+        display:"flex",
+        flexDirection:"column",
+        flex:1,
+        justifyContent:"center"
+    },
     contentContainer:{
         justifyContent:"center",
     },

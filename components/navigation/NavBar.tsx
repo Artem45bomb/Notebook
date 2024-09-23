@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useRef, useState} from "react";
-import {Animated, Pressable, StyleSheet, View} from "react-native";
+import {Animated, StyleSheet, View} from "react-native";
 import {AddNote} from "@/ui/navigation/AddNote";
 import MenuIcon from "@/assets/svg/icon/menu.svg";
 import NoteIcon from "@/assets/svg/icon/note.svg";
@@ -10,7 +10,6 @@ import {BtnIcon} from "@/ui/BtnIcon";
 import {Profile} from "@/assets/svg/icon";
 import {useAppSelector} from "@/hooks/redux";
 import {selectorRecord} from "@/store/slice/record/selector";
-import note from "@/store/slice/note/note";
 
 
 
@@ -27,7 +26,7 @@ export const NavBar:React.FC = () => {
 
     useEffect(
         React.useCallback(() => {
-            const toValue = isCreate? 1 : 0
+            const toValue = currentRouteName === "(tabs)/(set)" ? 1 : 0
             Animated.timing(_isCreate, {
                 toValue,
                 duration: 300,
@@ -49,22 +48,28 @@ export const NavBar:React.FC = () => {
         {
             !isCreate && <>
                 <View style={styles.contNavElems}>
-                    <MenuIcon color={"#ffffff"} height={32} width={32}/>
                     <BtnIcon
+                        stylesWrapper={styles.contBtn}
+                        Icon={() =><MenuIcon color={"#ffffff"} height={32} width={32}/>}
+                    />
+                    <BtnIcon
+                        stylesWrapper={styles.contBtn}
                         onPress={() =>{
                             console.log("aa")
                             router.push("/")
                         }}
-                        Icon={() =>  <TaskIcon height={32} width={32}/>}
+                        Icon={() =><TaskIcon height={32} width={32}/>}
                     />
                     <BtnIcon
+                        stylesWrapper={styles.contBtn}
                         onPress={() =>router.navigate("/(base)/profile")}
-                        Icon={() => <Profile color={"#ffffff"} height={32} width={32}/>}
+                        Icon={() =><Profile color={"#ffffff"} height={32} width={32}/>}
                     />
                     {record &&
                         <BtnIcon
+                            stylesWrapper={styles.contBtn}
                             onPress={handlerRecorder}
-                            Icon={() => <NoteIcon color={"#ffffff"} height={32} width={32}/>}
+                            Icon={() =><NoteIcon color={"#ffffff"} height={32} width={32}/>}
                         />
                     }
                 </View>
@@ -83,7 +88,7 @@ export const NavBar:React.FC = () => {
 const styles = StyleSheet.create({
     containerNav:{
         paddingHorizontal:10,
-        height:70,
+        height:50,
         width:'100%',
         position:"relative",
         backgroundColor:"#161615",
@@ -106,4 +111,7 @@ const styles = StyleSheet.create({
         backgroundColor:"black",
         height:0,
     },
+    contBtn:{
+        padding:12
+    }
 })

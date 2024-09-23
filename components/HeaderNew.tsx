@@ -3,10 +3,7 @@ import {StyleSheet, View} from "react-native";
 import {BtnIcon} from "@/ui/BtnIcon";
 import {OutputIcon, AddUsers, Tags, SettingsNote, TrashCan} from "@/assets/svg/icon";
 import {router} from "expo-router";
-import {useAppDispatch, useAppSelector} from "@/hooks/redux";
-import {save} from "@/store/slice/record/record";
-import {selectorRecord} from "@/store/slice/record/selector";
-import {updateNote} from "@/store/slice/note/note";
+
 
 
 
@@ -14,10 +11,11 @@ interface Props{
     createTag:boolean,
     setCreateTag:Dispatch<SetStateAction<boolean>>,
     isEmptyRecord:boolean,
+    setActivePanel:Dispatch<SetStateAction<boolean>>,
     deleteCb:() => void
 }
 
-export const HeaderNew:React.FC<Props> = ({createTag,setCreateTag,isEmptyRecord,deleteCb}) => {
+export const HeaderNew:React.FC<Props> = ({setCreateTag,isEmptyRecord,deleteCb,setActivePanel}) => {
 
     const newTag = () => setCreateTag(true)
 
@@ -41,6 +39,7 @@ export const HeaderNew:React.FC<Props> = ({createTag,setCreateTag,isEmptyRecord,
                 Icon={() =><Tags width={30} height={30} fill={"#8F8F8F"}/>}
             />
             <BtnIcon
+                onPress={() =>setActivePanel(prev => !prev)}
                 Icon={() =><SettingsNote width={30} height={30} fill={"#8F8F8F"}/>}
             />
         </View>

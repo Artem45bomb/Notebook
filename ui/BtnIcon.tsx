@@ -1,11 +1,11 @@
 import React from "react";
 import {SvgProps} from "react-native-svg";
-import {Pressable} from "react-native";
+import {Pressable, ViewStyle} from "react-native";
 
 
 interface Props{
     Icon?:React.FC<SvgProps>,
-    stylesWrapper?:object[] | object,
+    stylesWrapper?:ViewStyle[] | ViewStyle,
     onPress?:() => void,
     children?:React.ReactNode
 }

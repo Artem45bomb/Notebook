@@ -13,6 +13,7 @@ import {save} from "@/store/slice/record/record";
 import {saveNote} from "@/api/files/notes";
 import {Note} from "@/api/Model/Note";
 import uuid from "react-native-uuid"
+import {PanelStyles} from "@/components/PanelStyles/PanelStyles";
 
 
 
@@ -21,6 +22,7 @@ const Index:React.FC = () => {
     const textRef = React.useRef<TextInput>(null);
     const record = useAppSelector(selectorRecord)
     const dispatch = useAppDispatch()
+    const [isActivePanel,setIsActivePanel] = useState<boolean>(false)
 
     const deleteRecord = () => {
         dispatch(save())
@@ -48,6 +50,7 @@ const Index:React.FC = () => {
 
     return <View style={styles.container}>
         <HeaderNew
+            setActivePanel={setIsActivePanel}
             deleteCb={deleteRecord}
             isEmptyRecord={record?.typeState !== "create"}
             createTag={createTag} setCreateTag={setCreateTag}
@@ -58,7 +61,15 @@ const Index:React.FC = () => {
         <View style={styles.containerTag}>
             {createTag && <TagInput setCreateTag={setCreateTag}/>}<TagList/>
         </View>
-            <PanelRefactoring add={add} textRef={textRef}/>
+            <PanelRefactoring
+                isActivePanel={isActivePanel}
+                add={add}
+                textRef={textRef}
+            />
+            <PanelStyles
+                textRef={textRef}
+                isActivePanel={isActivePanel}
+            />
     </View>
 }
 

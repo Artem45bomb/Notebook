@@ -1,5 +1,5 @@
-import React from "react";
-import {TextInput, View, StyleSheet, ScrollView} from "react-native";
+import React, {useEffect, useRef} from "react";
+import {TextInput, View, StyleSheet, ScrollView, Animated} from "react-native";
 import {BtnSaveIcon, Camera, Tt, I, U, MenuText, B, TrashCan} from "@/assets/svg/icon";
 import {BtnIcon} from "@/ui/BtnIcon";
 import { useAppSelector} from "@/hooks/redux";
@@ -9,16 +9,39 @@ import {selectorRecord} from "@/store/slice/record/selector";
 
 
 
+
 interface Props {
     textRef:React.RefObject<TextInput>
+    isActivePanel:boolean,
     add:() => void
 }
 
 
-export const PanelRefactoring:React.FC<Props> = ({textRef,add}) => {
+export const PanelRefactoring:React.FC<Props> = ({textRef,add,isActivePanel}) => {
     const record = useAppSelector(selectorRecord);
 
-    return <View style={styles.container}>
+    const show = useRef(new Animated.Value(isActivePanel? 1:0)).current
+
+    const bottom = show.interpolate({
+        inputRange:[0,1],
+        outputRange:[0,-200]
+    })
+
+    useEffect(
+        React.useCallback(() => {
+            const toValue = isActivePanel? 1 : 0
+            Animated.timing(show, {
+                toValue,
+                duration: 300,
+                useNativeDriver: false
+            }).start();
+        }, [isActivePanel])
+    );
+
+    return <Animated.View style={{
+        ...styles.container,
+        bottom
+    }}>
         <ScrollView horizontal={true}
                     contentContainerStyle={styles.contentContainer}
                     style={styles.containerScroll}
@@ -51,7 +74,7 @@ export const PanelRefactoring:React.FC<Props> = ({textRef,add}) => {
                 Icon={() => <MenuText width={36} height={36} fill={"#8F8F8F"} />}
             />
         </ScrollView>
-    </View> ;
+    </Animated.View> ;
 }
 
 
@@ -63,7 +86,6 @@ const styles = StyleSheet.create({
         position:"absolute",
         paddingHorizontal:14,
         paddingBottom:18,
-        bottom:0,
         left:0,
         display:"flex",
         flexDirection:"row",
